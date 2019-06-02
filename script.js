@@ -8,7 +8,7 @@ function timer(endtime, hour, minute, second) {
         let deadline = endtime;
 
         function calcTime() {
-            let t = Date.parse(deadline) - new Date(),
+            let t = Date.parse(deadline) - Date.parse(new Date()),
                 seconds = Math.floor((t / 1000) % 60),
                 minutes = Math.floor((t / 1000 / 60) % 60),
                 hours = Math.floor((t / 1000 / 60 / 60) % 24);
