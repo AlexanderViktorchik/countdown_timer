@@ -6,16 +6,15 @@ function timer(endtime, hour, minute, second) {
         //timer
 
         let deadline = endtime;
-        let timeout;
 
         function calcTime() {
-            timeout = Date.parse(deadline) - new Date();
-
-            let seconds = Math.floor((timeout / 1000) % 60),
-                minutes = Math.floor((timeout / 1000 / 60) % 60),
-                hours = Math.floor((timeout / 1000 / 60 / 60) % 24);
-
+            let t = Date.parse(deadline) - new Date(),
+                seconds = Math.floor((t / 1000) % 60),
+                minutes = Math.floor((t / 1000 / 60) % 60),
+                hours = Math.floor((t / 1000 / 60 / 60) % 24);
+    
             return {
+                'total': t,
                 'seconds': seconds,
                 'minutes': minutes,
                 'hours': hours
@@ -26,35 +25,36 @@ function timer(endtime, hour, minute, second) {
             let hours = document.querySelector(hour),
                 minutes = document.querySelector(minute),
                 seconds = document.querySelector(second),
-                t = calcTime();
-
-            hours.textContent = t.hours;
-            minutes.textContent = t.minutes;
-            seconds.textContent = t.seconds;
-
-            for (let i = 0; i < 10; i++) {
-                if (hours.textContent == i) {
-                    hours.textContent = '0' + i;
+                everyTime = setInterval(updateClock, 1000);
+    
+            function updateClock() {
+                let t = calcTime();
+                hours.textContent = t.hours;
+                minutes.textContent = t.minutes;
+                seconds.textContent = t.seconds;
+    
+                for (let i = 0; i < 10; i++) {
+                    if (hours.textContent == i) {
+                        hours.textContent = '0' + i;
+                    }
+                    if (minutes.textContent == i) {
+                        minutes.textContent = '0' + i;
+                    }
+                    if (seconds.textContent == i) {
+                        seconds.textContent = '0' + i;
+                    }
                 }
-                if (minutes.textContent == i) {
-                    minutes.textContent = '0' + i;
+    
+                if (t.total <= 0) {
+                    clearInterval(everyTime);
+                    hours.textContent = '00';
+                    minutes.textContent = '00';
+                    seconds.textContent = '00';
                 }
-                if (seconds.textContent == i) {
-                    seconds.textContent = '0' + i;
-                }
-            }
-
-            if (timeout <= 0) {
-                clearInterval(everyTime);
-                hours.textContent = '00';
-                minutes.textContent = '00';
-                seconds.textContent = '00';
             }
         }
-
-        let everyTime = setInterval(showTime, 1000);
-
-        everyTime();
+    
+        showTime();
     });
 }
 
