@@ -11,8 +11,16 @@ function timer(endtime, hour, minute, second) {
             let t = Date.parse(deadline) - Date.parse(new Date()),
                 seconds = Math.floor((t / 1000) % 60),
                 minutes = Math.floor((t / 1000 / 60) % 60),
-                hours = Math.floor((t / 1000 / 60 / 60) % 24);
-    
+                hours = Math.floor(t / 1000 / 60 / 60);
+
+            //days
+
+            // let t = Date.parse(deadline) - Date.parse(new Date()),
+            //     seconds = Math.floor((t / 1000) % 60),
+            //     minutes = Math.floor((t / 1000 / 60) % 60),
+            //     hours = Math.floor((t / 1000 / 60 / 60) % 24),
+            //     days = Math.floor(t / 1000 / 60 / 60 / 24);
+
             return {
                 'total': t,
                 'seconds': seconds,
@@ -26,13 +34,13 @@ function timer(endtime, hour, minute, second) {
                 minutes = document.querySelector(minute),
                 seconds = document.querySelector(second),
                 everyTime = setInterval(updateClock, 1000);
-    
+
             function updateClock() {
                 let t = calcTime();
                 hours.textContent = t.hours;
                 minutes.textContent = t.minutes;
                 seconds.textContent = t.seconds;
-    
+
                 for (let i = 0; i < 10; i++) {
                     if (hours.textContent == i) {
                         hours.textContent = '0' + i;
@@ -44,7 +52,7 @@ function timer(endtime, hour, minute, second) {
                         seconds.textContent = '0' + i;
                     }
                 }
-    
+
                 if (t.total <= 0) {
                     clearInterval(everyTime);
                     hours.textContent = '00';
@@ -53,7 +61,7 @@ function timer(endtime, hour, minute, second) {
                 }
             }
         }
-    
+
         showTime();
     });
 }
